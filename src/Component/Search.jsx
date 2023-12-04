@@ -1,33 +1,47 @@
 import React from 'react'
-import {useState} from 'react'
-import {useEffect} from 'react'
+import { useState , useEffect} from 'react'
+import '../App.css'
 const Search = () => {
-    const [ resultData, setResultData] = useState([])
-    useEffect(() => {
-        fetch('https://656461dbceac41c0761e0f66.mockapi.io/Users')
-        .then( res =>{
-            res.json()
-        })
-        .then( data =>{
-            setResultData(data)
-        })
-    },[])
-     const [searchDatas,setSearchDatas] = useState("")
-     const searchData = (e) =>{
-        setSearchDatas(e.target.value.toLowerCase())
-     }
-  return (
-    <div>
-      <input type='text' onChange={searchData}></input>
-      {
-        resultData.filter(e => e.name.toLowerCase().includes(searchDatas)).map((a,b)=>(
-            <div className='list-item' key={b}>
-                <h4>{a.name}</h4>
-            </div>
-        ))
+      const [resultData, setResultData] = useState([])
+  useEffect(()=>{
+    fetch('https://655f3541879575426b44d522.mockapi.io/tasks')
+    .then(res=>res.json())
+    .then(data=>{
+      setResultData(data)
+     
+    })
+  },[])
+  const [searchMyData, setSearchMyData] = useState("")
+
+    const searchData = (e) =>{
+        setSearchMyData(e.target.value.toLowerCase())
+      
       }
+  return (
+
+    <div className='search-all'>
+        <div className="seach-inp">
+            
+    <input type='text' placeholder='search' onChange={searchData}/>
+        </div>
+        
+
+        <div className="cards">
+        { 
+      resultData.filter(e => e.name.toLowerCase().includes(searchMyData)).map((a,b)=>(
+        <div key={b} className='card-single'>
+        <img  src={a.avatar}/>
+        <p>{a.name}</p>
+      </div>
+      )
+      )
+    }
+ 
+        </div>
     </div>
   )
 }
+
+
 
 export default Search
